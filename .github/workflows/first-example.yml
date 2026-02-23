@@ -31,6 +31,7 @@ jobs:
           ls -lart
           cat README.md
       - name: Running through Shell script
+              chmod +x ascii.sh 
         run: ./ascii.sh
 
       

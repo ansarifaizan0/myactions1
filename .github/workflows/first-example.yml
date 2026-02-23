@@ -42,6 +42,6 @@ jobs:
           chmod +x ascii.sh
           ./ascii.sh
       - name: Sleeping it
-        run: sleep 300
+        run: sleep 120
 
       

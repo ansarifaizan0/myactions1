@@ -27,11 +27,11 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, world!
-      - name: Listing files
-        run: ls -lart
-      - name: reading files
-        run: cat README.md
+        run: | 
+          echo Hello, world!
+          ls -lart
+          cat README.md
+     
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script

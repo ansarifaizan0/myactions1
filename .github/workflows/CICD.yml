@@ -1,0 +1,83 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  # ===========================
+  # MACHINE 1 - BUILD PHASE
+  # ===========================
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install cowsay
+        run: sudo apt-get install -y cowsay
+
+      - name: Generate dragon.txt
+        run: /usr/games/cowsay -f dragon "Run for cover, I am Dragon.....RAWR" > dragon.txt
+
+      - name: Upload dragon.txt as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dragon-file
+          path: dragon.txt
+
+  # ===========================
+  # MACHINE 2 - TEST PHASE
+  # ===========================
+  test:
+    runs-on: ubuntu-latest
+    needs: build               # ✅ Runs only after build passes
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download dragon.txt artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dragon-file
+
+      - name: Check if dragon.txt is present
+        run: |
+          if [ -f dragon.txt ]; then
+            echo "✅ dragon.txt found!"
+          else
+            echo "❌ dragon.txt NOT found!"
+            exit 1
+          fi
+
+      - name: Upload tested artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dragon-file-tested
+          path: dragon.txt
+
+  # ===========================
+  # MACHINE 3 - DEPLOY PHASE
+  # ===========================
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test               # ✅ Runs only after test passes
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download tested artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dragon-file-tested
+
+      - name: Deploy - cat dragon.txt
+        run: |
+          echo "🚀 Deploying..."
+          echo "============================="
+          cat dragon.txt
+          echo "============================="
+          echo "✅ Deploy phase completed!"

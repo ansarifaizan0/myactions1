@@ -1,16 +1,24 @@
- name: my first workflow
- on: push
+name: my first workflow
+on: push
 
- jobs:
-      first-jobs:
-          runs_on: ubuntu-latest
-          steps:
-            - name: checkout repo
-              uses: actions/checkout@v4
-              
-            - name: Welcome message
-              run: echo "Ho Welcome to Github actions!!!"
-            - name: lsiting files
-              run: ls -lart
-            - name: Reading readme files
-              run: cat readme.md
+jobs:
+  first-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: Verify checkout        # ✅ Add this to confirm
+        run: |
+          echo "Repo checked out successfully!"
+          echo "Current directory: $(pwd)"
+          ls -lart                   # Should show your repo files now
+
+      - name: Welcome message
+        run: echo "Ho Welcome to Github actions!!!"
+
+      - name: listing files
+        run: ls -lart
+
+      - name: Reading readme files
+        run: cat README.md

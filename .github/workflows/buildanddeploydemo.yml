@@ -2,7 +2,7 @@ name: Build and Deploy Demo
 
 on:
   push:
-    branches: [ "main", "feature/*" ]
+    branches: [ "main", "feature" ]
   pull_request:
     branches: [ "main" ]
 

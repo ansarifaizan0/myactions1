@@ -8,18 +8,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  # ===========================
-  # MACHINE 1 - BUILD PHASE
-  # ===========================
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest,ubuntu-20.04,windows-latest]
-        images: [hello-world,alpine]
-    runs-on: ${{matrix.os}}
+        os: [ubuntu-latest, ubuntu-20.04]   # removed windows-latest
+        images: [hello-world, alpine]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: echo "docker details"
-        run:  docker-info
+      - name: echo docker details
+        run: docker info
 
-      - name: rum images on ${{matrix.os}}
-        run: docket-run ${{matrix.images}}
+      - name: run images on ${{ matrix.os }}
+        run: docker run ${{ matrix.images }}

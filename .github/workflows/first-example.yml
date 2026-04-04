@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v4
 
       # Runs a single command using the runners shell
-      - name: Listing files 
+      - name: Listing files and reading files
         run: | 
           ls -lart
           cat README.md

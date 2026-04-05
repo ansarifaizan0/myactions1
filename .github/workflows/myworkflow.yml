@@ -2,9 +2,9 @@ name: My-workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 concurrency:
@@ -21,16 +21,14 @@ jobs:
       - name: Listing files and reading files
         run: |
           ls -lart
-          cat README.md
+          [ -f README.md ] && cat README.md || echo "No README found"
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Event type
-        run:  "This workflow is triggered by: ${{ github.event_name }}"
-
-      - name: Running through Shell script
-        if: github.actor == 'ansarifaizan12'
         run: |
-          chmod +x ascii.sh
-          ./ascii.sh
-        env:
-          PASSWORD: ${{ secrets.PASSWORD }}
-          GITHUB_CONTEXT: ${{ toJson(github) }}
+          echo "This workflow is triggered by: ${{ github.event_name }}"

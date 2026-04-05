@@ -34,7 +34,7 @@ jobs:
           chmod +x ascii.sh
           ./ascii.sh
         env:
-          if: github.actor=="ansarifaizan12"
+          if: github.actor == "ansarifaizan12"
           # FIX 3: convention is UPPER_SNAKE_CASE for secret names
           PASSWORD: ${{ secrets.PASSWORD }}
           # FIX 4: completely wrong syntax — correct is ${{ toJson(github) }}

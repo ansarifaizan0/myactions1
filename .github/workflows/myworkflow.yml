@@ -1,0 +1,40 @@
+name: My-workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  # FIX: schedule must be at same level as push/pull_request (under on:)
+  # schedule:
+  #   - cron: '*/1 * * * *'
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    # FIX 1: steps: was indented 8 spaces — must be 4 (same level as runs-on)
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Listing files and reading files
+        run: |
+          ls -lart
+          cat README.md
+
+      - name: Running through Shell script
+        # FIX 2: run: had extra leading spaces — must align with name:
+        run: |
+          chmod +x ascii.sh
+          ./ascii.sh
+        env:
+          # FIX 3: convention is UPPER_SNAKE_CASE for secret names
+          PASSWORD: ${{ secrets.Password }}
+          # FIX 4: completely wrong syntax — correct is ${{ toJson(github) }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}

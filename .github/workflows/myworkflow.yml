@@ -32,3 +32,4 @@ jobs:
             fi
         env:
             PASSWORD: ${{ secrets.PASSWORD }}
+            Name: ${{vars.Name}}

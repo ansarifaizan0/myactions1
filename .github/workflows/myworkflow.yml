@@ -22,13 +22,15 @@ jobs:
         run: |
           ls -lart
           [ -f README.md ] && cat README.md || echo "No README found"
-
   test:
-    needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Event type
-        run: |
-          echo "This workflow is triggered by: ${{ github.event_name }}"
+    - name: Use password securely
+      run: |
+        if [ -z "$PASSWORD" ]; then
+        echo "Password missing"
+        exit 1
+        fi
+        echo "Password exists, proceeding..."
+    env:
+        PASSWORD: ${{ secrets.PASSWORD }}

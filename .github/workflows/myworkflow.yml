@@ -25,12 +25,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Use password securely
-      run: |
-        if [ -z "$PASSWORD" ]; then
-        echo "Password missing"
-        exit 1
-        fi
-        echo "Password exists, proceeding..."
-    env:
-        PASSWORD: ${{ secrets.PASSWORD }}
+      - name: Validate password
+        run: |
+            if [ "$PASSWORD" = "Uansari@786" ]; then
+            echo "Correct password"
+            fi
+        env:
+            PASSWORD: ${{ secrets.PASSWORD }}

@@ -35,6 +35,6 @@ jobs:
           ./ascii.sh
         env:
           # FIX 3: convention is UPPER_SNAKE_CASE for secret names
-          PASSWORD: ${{ secrets.Password }}
+          PASSWORD: ${{ secrets.PASSWORD }}
           # FIX 4: completely wrong syntax — correct is ${{ toJson(github) }}
           GITHUB_CONTEXT: ${{ toJson(github) }}

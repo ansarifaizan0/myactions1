@@ -5,10 +5,6 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  # FIX: schedule must be at same level as push/pull_request (under on:)
-  # schedule:
-  #   - cron: '*/1 * * * *'
-
   workflow_dispatch:
 
 concurrency:
@@ -19,7 +15,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 1
-    # FIX 1: steps: was indented 8 spaces — must be 4 (same level as runs-on)
     steps:
       - uses: actions/checkout@v4
 
@@ -27,8 +22,9 @@ jobs:
         run: |
           ls -lart
           cat README.md
-      - name: event type
-        run: echo "this workflow is triggere by : ${{ github.event_name }}"
+
+      - name: Event type
+        run:  "This workflow is triggered by: ${{ github.event_name }}"
 
       - name: Running through Shell script
         if: github.actor == 'ansarifaizan12'
